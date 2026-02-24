@@ -116,8 +116,6 @@ A máquina é controlada por um **Arduino Uno** (o "cérebro") e uma **CNC Shiel
 Projeto desenvolvido pelo Clube de Ciências e Arte do CEFCM.
 
 - 👨‍🔬 **Gustavo Alves**
-- 👩‍🔬 **Yasmim**
-- 👩‍🔬 **Lohana**
 - 👨‍🏫 **Prof. Oziel Lopes da Silva** — Orientador
 
 ***
