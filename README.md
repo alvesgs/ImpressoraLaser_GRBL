@@ -1,107 +1,150 @@
+## ℹ️ Sobre o GRBL
+
+**GRBL** é um firmware de código aberto altamente otimizado, escrito em C, que oferece controle de movimento CNC de alta performance com baixo custo. Funciona nativamente em placas Arduino com processador ATmega328.
+
+### Características Principais do GRBL:
+
+- **Alto Desempenho**: Mantém até 30kHz de pulsos de controle estáveis e sem jitter
+- **G-code Padrão**: Aceita código G padrão compatível com ferramentas CAM profissionais
+- **Gestão de Aceleração**: Look-ahead inteligente até 18 movimentos à frente para aceleração suave sem sobressaltos
+- **Suporta**: Arcos, círculos, movimento helicoidal e todos os principais comandos G-code
+- **Software Livre**: Licença GPLv3
+
+### Versão Instalada:
+
+Este projeto utiliza **GRBL v0.9j ou superior**, com as seguintes características:
+
+- **Baudrate**: 115200 bps
+- **Processador**: ATmega328 (Arduino Uno)
+- **Controle Variável**: Suporte a velocidade variável e controle PWM para o laser
+- **Homing Automático**: Ciclo de homing baseado em switches de fim de curso
+
+### Comandos G-code Suportados:
+
+**Comandos Não-Modais**: G4, G10L2, G10L20, G28, G30, G28.1, G30.1, G53, G92, G92.1
+
+**Modos de Movimento**: G0, G1, G2, G3, G38.2, G38.3, G38.4, G38.5, G80
+
+**Modos de Taxa de Avanço**: G93, G94
+
+**Modos de Unidade**: G20, G21
+
+**Controle de Laser**: M3 (ligar), M4 (variável), M5 (desligar)
+
+**Controle de Movimento**: F (velocidade), X, Y, Z, S (velocidade do laser)
+
+***
+### Passos de Instalação:
+
+1. **Clonar/Baixar o firmware GRBL**
+   ```
+   git clone https://github.com/gnea/grbl.git
+   cd grbl/grbl
+   ```
+
+2. **Configurar para o seu hardware** (editar `config.h` ou usar `defaults.h`)
+   - Selecionar a configuração correta para sua máquina
+   - Ajustar corrente dos motores
+   - Definir limites de movimento
+
+3. **Compilar e fazer upload**
+   - Usar Arduino IDE (1.0.5 ou superior recomendado)
+   - Selecionar Board: Arduino Uno
+   - Fazer upload do firmware
+
+4. **Configurar via Serial**
+   - Conectar via terminal serial em 115200 baud
+   - Usar comandos `$` para configuração
+   - Exemplo: `$$` para ver todas as configurações
+
+5. **Testar Movimento**
+   - Usar software como CNCjs, Lightburn ou LaserWeb
+   - Enviar comandos G-code simples
+   - Validar movimento dos eixos e laser
+
+***
 ![GitHub Logo](https://github.com/gnea/gnea-Media/blob/master/Grbl%20Logo/Grbl%20Logo%20250px.png?raw=true)
-***
 
-### Grbl v1.1 has been released [here](https://github.com/gnea/grbl/releases)!
-### Notice: This site will be phased out and moved to the new one!
+# CNC Laser - Máquina de Corte e Gravação com GRBL
 
 ***
 
-Grbl is a no-compromise, high performance, low cost alternative to parallel-port-based motion control for CNC milling. It will run on a vanilla Arduino (Duemillanove/Uno) as long as it sports an Atmega 328. 
+## 📖 Sobre o Projeto
 
-The controller is written in highly optimized C utilizing every clever feature of the AVR-chips to achieve precise timing and asynchronous operation. It is able to maintain up to 30kHz of stable, jitter free control pulses.
+Uma máquina CNC a laser construída com peças aproveitadas, capaz de realizar cortes e gravações com alta precisão. O projeto nasceu com um propósito claro: provar que tecnologia de ponta não precisa ser cara e pode ser acessível a todos.
 
-It accepts standards-compliant g-code and has been tested with the output of several CAM tools with no problems. Arcs, circles and helical motion are fully supported, as well as, all other primary g-code commands. Macro functions, variables, and most canned cycles are not supported, but we think GUIs can do a much better job at translating them into straight g-code anyhow.
-
-Grbl includes full acceleration management with look ahead. That means the controller will look up to 18 motions into the future and plan its velocities ahead to deliver smooth acceleration and jerk-free cornering.
-
-* [Licensing](https://github.com/grbl/grbl/wiki/Licensing): Grbl is free software, released under the GPLv3 license.
-
-* For more information and help, check out our **[Wiki pages!](https://github.com/grbl/grbl/wiki)** If you find that the information is out-dated, please to help us keep it updated by editing it or notifying our community! Thanks!
-
-* Lead Developer [_2011 - Current_]: Sungeun(Sonny) K. Jeon, Ph.D. (USA) aka @chamnit
-
-* Lead Developer [_2009 - 2011_]: Simen Svale Skogsrud (Norway). aka The Originator/Creator/Pioneer/Father of Grbl.
+> "Queremos provar que é possível fazer tecnologia utilizando sucata, criando um projeto sustentável, acessível e de baixo custo."
 
 ***
 
-### Official Supporters of the Grbl CNC Project
-![Official Supporters](https://github.com/gnea/gnea-Media/blob/master/Contributors.png?raw=true)
+## 🛠️ Como Funciona?
+
+A máquina é controlada por um **Arduino Uno** (o "cérebro") e uma **CNC Shield** que conecta e movimenta os eixos X e Y. O firmware utilizado é o **GRBL**, que interpreta comandos G-code e transforma-os em movimentos precisos dos motores de passo, enquanto um módulo laser PWM controla a intensidade do laser.
+
+### Fluxo de Operação:
+1. Um arquivo de design é convertido em código G (usando softwares como Lightburn, LaserWeb ou similar)
+2. O G-code é enviado via serial (115200 baud) para o Arduino
+3. O GRBL interpreta cada comando e coordena os motores
+4. A cabeça laser é posicionada precisamente nos eixos X e Y
+5. O laser é acionado com intensidade controlada por PWM
 
 ***
 
-_**Master Branch:**_
-* [Grbl v0.9j Atmega328p 16mhz 115200baud with generic defaults](http://bit.ly/1I8Ey4S) _(2016-03-17)_
-  - **IMPORTANT INFO WHEN UPGRADING TO GRBL v0.9 :** 
-  - Baudrate is now **115200** (Up from 9600). 
-  - Homing cycle updated. Located based on switch trigger, rather than release point.
-  - Variable spindle is now enabled by default. Z-limit(D12) and spindle enable(D11) have switched to access the hardware PWM on D11. Homing will not work if you do not re-wire your Z-limit switch to D12.
+## 🌍 Alinhamento com os ODS da ONU
 
-_**Archives:**_
-* [Grbl v0.9i Atmega328p 16mhz 115200baud with generic defaults](http://bit.ly/1EiviDk) 
-* [Grbl v0.9g Atmega328p 16mhz 115200baud with generic defaults](http://bit.ly/1m8E1Qa) 
-* [Grbl v0.8c Atmega328p 16mhz 9600baud](http://bit.ly/SSdCJE)
-* [Grbl v0.7d Atmega328p 16mhz 9600baud](http://bit.ly/ZhL15G)
-* [Grbl v0.6b Atmega328p 16mhz 9600baud](http://bit.ly/VD04A5)
-* [Grbl v0.51 Atmega328p 16mhz 9600baud](http://bit.ly/W75BS1)
-* [Grbl v0.6b Atmega168 16mhz 9600baud](http://bit.ly/SScWnE)
-* [Grbl v0.51 Atmega168 16mhz 9600baud](http://bit.ly/VXyrYu)
-
+- **ODS 9** — Indústria, Inovação e Infraestrutura
+- **ODS 12** — Consumo e Produção Responsáveis
 
 ***
 
-## Update Summary for v0.9j
-  - **Restore EEPROM feature:** A new set of restore EEPROM features to help OEMs and users reset their Grbl installation to the build defaults. See Configuring Grbl Wiki for details.
-  - **More configuration options for input pins**
-  - **Bug fixes including:** Soft limit error handling, disable spindle when S0, g-code reporting of G38.x.
-  
-## Update Summary for v0.9i
-  - **IMPORTANT:**
-    - **Homing cycle updated. Locates based on trigger point, rather than release point.**
-    - **System tweaks: $14 cycle auto-start has been removed. No more QUEUE state.**
-  - **New G-Codes** 
-  - **CoreXY Support**
-  - **Safety Door Support**
-  - **Full Limit and Control Pin Configurability**
-  - **Additional Compile-Time Feature Options**
+## 🏆 Conquistas
 
-## Update Summary for v0.9h from v0.8
-  - **IMPORTANT:**
-    - **Default serial baudrate is now 115200! (Up from 9600)**
-    - **Z-limit(D12) and spindle enable(D11) pins have switched to support variable spindle!**
-  - **Super Smooth Stepper Algorithm**
-  - **Stability and Robustness Updates**
-  - **(x4)+ Faster Planner**
-  - **Compile-able via Arduino IDE!**
-  - **G-Code Parser Overhaul**
-  - **Independent Acceleration and Velocity Settings**
-  - **Soft Limits**
-  - **Probing**
-  - **Dynamic Tool Length Offsets**
-  - **Improved Arc Performance**
-  - **CPU Pin Mapping**
-  - **New Grbl SIMULATOR! (by @jgeisler and @ashelly)**
-  - **Configurable Real-time Status Reporting**
-  - **Updated Homing Routine**
-  - **Optional Limit Pin Sharing**
-  - **Optional Variable Spindle Speed Output**
-  - **Additional Compile-Time Feature Options**
+- 🥉 **3º Lugar em Engenharia e Sustentabilidade** — FENECIT
+- 🚀 **Credenciamento para apresentação** — FECIBA
 
--
-``` 
-List of Supported G-Codes in Grbl v0.9 Master:
-  - Non-Modal Commands: G4, G10L2, G10L20, G28, G30, G28.1, G30.1, G53, G92, G92.1
-  - Motion Modes: G0, G1, G2, G3, G38.2, G38.3, G38.4, G38.5, G80
-  - Feed Rate Modes: G93, G94
-  - Unit Modes: G20, G21
-  - Distance Modes: G90, G91
-  - Arc IJK Distance Modes: G91.1
-  - Plane Select Modes: G17, G18, G19
-  - Tool Length Offset Modes: G43.1, G49
-  - Cutter Compensation Modes: G40
-  - Coordinate System Modes: G54, G55, G56, G57, G58, G59
-  - Control Modes: G61
-  - Program Flow: M0, M1, M2, M30*
-  - Coolant Control: M7*, M8, M9
-  - Spindle Control: M3, M4, M5
-  - Valid Non-Command Words: F, I, J, K, L, N, P, R, S, T, X, Y, Z
-```
+***
+
+## 📅 Linha do Tempo
+
+- **Novembro de 2024** — Primeira versão da CNC de plotagem apresentada
+- **Dezembro de 2025** — Evolução para CNC laser na FECIBA em Salvador
+
+***
+
+## 👥 Equipe
+
+Projeto desenvolvido pelo Clube de Ciências e Arte do CEFCM.
+
+- 👨‍🔬 **Gustavo Alves**
+- 👩‍🔬 **Yasmim**
+- 👩‍🔬 **Lohana**
+- 👨‍🏫 **Prof. Oziel Lopes da Silva** — Orientador
+
+***
+
+## 📲 Acompanhe o Projeto
+
+- Instagram: [@projeto_c.n.c](https://instagram.com/projeto_c.n.c)
+- Instagram: [@clubedecienciasearte_cefcm](https://instagram.com/clubedecienciasearte_cefcm)
+
+***
+
+## 📚 Referências e Recursos
+
+- **GRBL Wiki**: https://github.com/grbl/grbl/wiki
+- **Licença**: Grbl é software livre, lançado sob a licença GPLv3
+
+### Créditos do GRBL:
+
+- **Desenvolvedor Principal [2011 - Atual]**: Sungeun (Sonny) K. Jeon, Ph.D. (USA)
+- **Originator/Criador [2009 - 2011]**: Simen Svale Skogsrud (Noruega)
+
+***
+
+## 📝 Changelog
+
+Consulte a documentação na pasta `/doc/log/` para histórico completo de versões e mudanças.
+
+***
+
+_Grbl v1.1 e versões posteriores disponíveisl em [releases](https://github.com/gnea/grbl/releases)_
